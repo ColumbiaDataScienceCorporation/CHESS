@@ -87,6 +87,7 @@ def call_llm_chain(prompt: Any, engine: Any, parser: Any, request_kwargs: Dict[s
             if attempt < max_attempts - 1:
                 logger.log(f"Failed to invoke the chain {attempt + 1} times.\n{type(e)}\n{e}", "warning")
                 sleep_time = (backoff_base ** attempt) + random.uniform(0, jitter_max)
+                logger.log(f"try again after sleeping for {sleep_time} seconds", "warning")
                 time.sleep(sleep_time)
             else:
                 logger.log(f"Failed to invoke the chain {attempt + 1} times.\n{type(e)} <{e}>\n", "error")

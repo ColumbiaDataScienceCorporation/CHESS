@@ -1,0 +1,45 @@
+{
+    "keyword_extraction": {
+        "engine": "gpt-4o",
+        "temperature": 0.2,
+        "base_uri": ""
+    },
+    "entity_retrieval": {
+        "mode": "ask_model"
+    },
+    "context_retrieval": {
+        "mode": "vector_db",
+        "top_k": 5
+    },
+    "column_filtering": {
+        "engine": "gpt-4o",
+        "temperature": 0.0,
+        "base_uri": ""
+    },
+    "table_selection": {
+        "mode": "ask_model",
+        "engine": "gpt-4o",
+        "temperature": 0.0,
+        "base_uri": "",
+        "sampling_count": 1
+    },
+    "column_selection": {
+        "mode": "ask_model",
+        "engine": "gpt-4o",
+        "temperature": 0.0,
+        "base_uri": "",
+        "sampling_count": 1
+    },
+    "candidate_generation": {
+        "engine": "gpt-4o",
+        "temperature": 0.0,
+        "base_uri": "",
+        "sampling_count": 1
+    },
+    "revision": {
+        "engine": "gpt-4o",
+        "temperature": 0.0,
+        "base_uri": "",
+        "sampling_count": 1
+    }
+}

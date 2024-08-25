@@ -1,0 +1,7 @@
+Given the following question and hint, identify and list all relevant keywords, keyphrases, and named entities.
+
+Question: {QUESTION}
+Hint: {HINT}
+
+Please provide your findings as a Python list, capturing the essence of both the question and hint through the identified terms and phrases. 
+Only output the Python list, no explanations needed. 

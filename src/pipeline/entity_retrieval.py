@@ -201,7 +201,7 @@ def get_similar_entities(keywords: List[str]) -> Dict[str, Dict[str, List[str]]]
 
     for table_name, column_values in selected_values.items():
         for column_name, values in column_values.items():
-            max_edit_distance = max(values, key=lambda x: x[2])[2]
+            max_edit_distance = max(values, key=lambda x: x[2])[2]     # this could be a bug, why return values with max edit distance? 
             selected_values[table_name][column_name] = list(set(
                 value for _, value, edit_distance, _ in values if edit_distance == max_edit_distance
             ))
@@ -256,7 +256,7 @@ def _get_similar_values(target_string: str, values: List[str]) -> List[Tuple[str
         if similarities[i] >= embedding_similarity_threshold
     ]
 
-    embedding_similar_values.sort(key=lambda x: x[2], reverse=True)
+    embedding_similar_values.sort(key=lambda x: x[2], reverse=True)   # this could be a bug, it is not sorting by embedding similarity
     return embedding_similar_values[:top_k_embedding]
 
 def _get_semantic_similarity_with_openai(target_string: str, list_of_similar_words: List[str]) -> List[float]:

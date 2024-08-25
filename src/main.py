@@ -2,6 +2,7 @@ import argparse
 import json
 from datetime import datetime
 from typing import Any, Dict, List
+from llm import prompts
 
 from runner.run_manager import RunManager
 
@@ -21,6 +22,9 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument('--checkpoint_nodes', type=str, required=False, help="Checkpoint nodes configuration.")
     parser.add_argument('--checkpoint_dir', type=str, required=False, help="Directory for checkpoints.")
     parser.add_argument('--log_level', type=str, default='warning', help="Logging level.")
+    parser.add_argument('--num_workers', type=int, default=1, help="number of workers.")
+    parser.add_argument('--templates', type=str, default='templates', help="number of workers.")
+    
     args = parser.parse_args()
 
     args.run_start_time = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
@@ -53,6 +57,7 @@ def main():
     Main function to run the pipeline with the specified configuration.
     """
     args = parse_arguments()
+    prompts.TEMPLATES_ROOT_PATH = args.templates
     dataset = load_dataset(args.data_path)
 
     run_manager = RunManager(args)

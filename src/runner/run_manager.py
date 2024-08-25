@@ -11,7 +11,6 @@ from runner.statistics_manager import StatisticsManager
 from pipeline.workflow_builder import build_pipeline
 from pipeline.pipeline_manager import PipelineManager
 
-NUM_WORKERS = 11
 
 class RunManager:
     RESULT_ROOT_PATH = "results"
@@ -23,6 +22,7 @@ class RunManager:
         self.tasks: List[Task] = []
         self.total_number_of_tasks = 0
         self.processed_tasks = 0
+        print(f'######using {self.args.num_workers} workers######')
 
     def get_result_directory(self) -> str:
         """
@@ -65,7 +65,7 @@ class RunManager:
 
     def run_tasks(self):
         """Runs the tasks using a pool of workers."""
-        with Pool(NUM_WORKERS) as pool:
+        with Pool(self.args.num_workers) as pool:
             for task in self.tasks:
                 pool.apply_async(self.worker, args=(task,), callback=self.task_done)
             pool.close()
@@ -85,7 +85,15 @@ class RunManager:
         logger = Logger(db_id=task.db_id, question_id=task.question_id, result_directory=self.result_directory)
         logger._set_log_level(self.args.log_level)
         logger.log(f"Processing task: {task.db_id} {task.question_id}", "info")
-        pipeline_manager = PipelineManager(json.loads(self.args.pipeline_setup))
+
+        pipeline_setup = ''        
+        if os.path.isfile(self.args.pipeline_setup):
+            with open(self.args.pipeline_setup) as json_data:
+                pipeline_setup = json.load(json_data)
+        else:
+            pipeline_setup = json.loads(self.args.pipeline_setup)
+        pipeline_manager = PipelineManager(pipeline_setup)
+
         try:
             tentative_schema, execution_history = self.load_checkpoint(task.db_id, task.question_id)
             initial_state = {"keys": {"task": task, 

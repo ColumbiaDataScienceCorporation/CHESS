@@ -1,0 +1,38 @@
+You are given a question, an evidence, a correct sql query that answers the question and an incorrect sql query.
+Your task is to identify the problems in the incorrect query. 
+Please ignore difference in table alias or difference in ordering of selected columns.
+
+Common problems in the incorrect query are listed below:
+1. incorrect columns in select or where clause
+2. incorrect formatting in select
+3. incorrect tables
+4. incorrect values in where clause
+5. malformed date
+6. didn't check NULL values
+7. didn't use distinct keyword for the selected columns
+8. didn't use group by
+9. incorrect logic in where clause
+10. didn't use aggregation operation
+11. didn't use the evidence correctly
+12. incorrect sql syntax
+
+
+Question:
+{QUESTION}
+
+Evidence:
+{EVIDENCE}
+
+Correct Query:
+{GOLD_SQL}
+
+Incorrect Query:
+{PREDICTED_SQL}
+
+Please respond with a JSON object structured as follows(please list all identified problems):
+```json
+{{
+  "problems": ["problem1", "problem2", "problem3", ...]
+  "explanations": ["explanation1", "explanation2", "explanation3", ...]
+}}
+```

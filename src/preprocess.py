@@ -3,6 +3,7 @@ import argparse
 import multiprocessing
 from dotenv import load_dotenv
 import logging
+from runner.logger import Logger
 
 from database_utils.db_values.preprocess import make_db_lsh
 from database_utils.db_catalog.preprocess import make_db_context_vec_db
@@ -22,6 +23,10 @@ def worker_initializer(db_id: str, args: argparse.Namespace):
         args (argparse.Namespace): The command line arguments.
     """
     db_directory_path = f"{args.db_root_directory}/{db_id}"
+    
+    logger = Logger(db_id=db_id, question_id=0, result_directory=db_directory_path)
+    logger._set_log_level('info')
+    
     logging.info(f"Creating LSH for {db_id}")
     make_db_lsh(db_directory_path, 
                 signature_size=args.signature_size, 

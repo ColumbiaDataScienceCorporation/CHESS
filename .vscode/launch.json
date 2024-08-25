@@ -1,0 +1,49 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python Debugger: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            // "args": [
+            //     "--db_root_path", "./data/dev/dev_databases/",
+            //     "--data_mode", "dev",
+            //     "--diff_json_path", "./data/dev/dev.json",
+            //     "--predicted_sql_path", "./results/dev/keyword_extraction+entity_retrieval+context_retrieval+candidate_generation+revision+evaluation/wrong_sqls/2024-08-23-16-16-29",
+            //     //"--predicted_sql_path", "./results/dev/keyword_extraction+entity_retrieval+context_retrieval+candidate_generation+revision+evaluation/sub_sampled_bird_dev_set/2024-08-22-17-16-26",
+            //     //"--predicted_sql_path", "./results/dev/keyword_extraction+entity_retrieval+context_retrieval+candidate_generation+revision+evaluation/dev_test/2024-08-19-13-55-20",
+            //     "--ground_truth_path", "./data/",
+            //     "--num_cpus", "4",
+            //     "--meta_time_out", "30.0",
+            //     "--mode_gt", "gt",
+            //     "--mode_predict", "gpt",
+            //     "--engine", "gpt-4o",
+            //     "--sql_dialect", "SQLite",
+            //     //"--iter_num", "20"
+            // ]
+            // "args": [
+            //     "--data_path", "./data/dev/wrong_sqls.json",
+            //     //"--data_path", "./data/dev/sub_sampled_bird_dev_set.json",
+            //     "--data_mode", "dev",
+            //     "--num_workers", "2",
+            //     "--log_level", "warning",
+            //     "--pipeline_nodes", "keyword_extraction+entity_retrieval+context_retrieval+candidate_generation+revision+evaluation",
+            //     "--pipeline_setup", "./cfg/cfg.json",
+            //     "--templates", "mytemplates"
+            // ]
+            "args": [
+                "--db_root_directory", "./data/test",
+                "--db_id", "all",
+                "--verbose", "true",
+                "--signature_size", "100",
+                "--n_gram", "3",
+                "--threshold", "0.01"
+            ]
+        }
+    ]
+}

@@ -3,6 +3,7 @@ import json
 from threading import Lock
 from pathlib import Path
 from typing import Any, List, Dict, Union
+from pathlib import Path
 
 class Logger:
     _instance = None
@@ -45,7 +46,7 @@ class Logger:
         self.question_id = question_id
         self.result_directory = Path(result_directory)
 
-    def _set_log_level(self, log_level: str):
+    def _set_log_level(self, log_level: str, logfilename='log.txt'):
         """
         Sets the logging level.
 
@@ -58,8 +59,21 @@ class Logger:
         log_level_attr = getattr(logging, log_level.upper(), None)
         if log_level_attr is None:
             raise ValueError(f"Invalid log level: {log_level}")
-        logging.basicConfig(level=log_level_attr, format='%(levelname)s: %(message)s')
+        # logging.basicConfig(level=log_level_attr, format='%(levelname)s: %(message)s')
 
+        logFormatter = logging.Formatter("%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s")
+        logging.getLogger().setLevel(log_level_attr)
+
+        fileHandler = logging.FileHandler(Path(self.result_directory) / logfilename)
+        fileHandler.setLevel(log_level_attr)
+        fileHandler.setFormatter(logFormatter)
+        logging.getLogger().addHandler(fileHandler)
+        
+        consoleHandler = logging.StreamHandler()
+        consoleHandler.setLevel(log_level_attr)
+        consoleHandler.setFormatter(logFormatter)
+        logging.getLogger().addHandler(consoleHandler)
+    
     def log(self, message: str, log_level: str = "info"):
         """
         Logs a message at the specified log level.

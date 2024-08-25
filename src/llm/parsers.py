@@ -93,6 +93,31 @@ class SQLRevisionOutput(BaseModel):
     chain_of_thought_reasoning: str = Field(description="Your thought process on how you arrived at the final SQL query.")
     revised_SQL: str = Field(description="The revised SQL query in a single string.")
 
+
+class DiagnosisOutputParser(BaseOutputParser):
+    """Parses diagnosis outputs embedded in markdown code blocks containing JSON."""
+    
+    def __init__(self, **kwargs: Any):
+        super().__init__(**kwargs)
+
+    def parse(self, output: str) -> Any:
+        """
+        Parses the output to extract JSON content from markdown.
+
+        Args:
+            output (str): The output string containing JSON.
+
+        Returns:
+            Any: The parsed JSON content.
+        """
+        logging.debug(f"Parsing output with DiagnosisOutputParser: {output}")
+        if "```json" in output:
+            output = output.split("```json")[1].split("```")[0]
+        output = re.sub(r"^\s+", "", output)
+        output = output.replace("\n", " ").replace("\t", " ")
+        return json.loads(output)
+
+
 def get_parser(parser_name: str) -> BaseOutputParser:
     """
     Returns the appropriate parser based on the provided parser name.
@@ -114,6 +139,7 @@ def get_parser(parser_name: str) -> BaseOutputParser:
         "candidate_generation": lambda: JsonOutputParser(pydantic_object=SQLGenerationOutput),
         "finetuned_candidate_generation": MarkDownOutputParser,
         "revision": lambda: JsonOutputParser(pydantic_object=SQLRevisionOutput),
+        "diagnosis": lambda: JsonOutputParser(pydantic_object=DiagnosisOutputParser),
     }
 
     if parser_name not in parser_configs:

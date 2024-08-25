@@ -971,7 +971,7 @@
         "question_id": 1268,
         "db_id": "thrombosis_prediction",
         "question": "For the patients with an abnormal anti-SM, please list the IDs of the three youngest ones.",
-        "evidence": "abnormal anti-SM refers to SM NOT IN('-', '+-'); youngest refers to MAX(Birthday);",
+        "evidence": "abnormal anti-SM refers to SM NOT IN ('negative', '0'); youngest refers to MAX(Birthday);",
         "SQL": "SELECT T1.ID FROM Patient AS T1 INNER JOIN Laboratory AS T2 ON T1.ID = T2.ID WHERE T2.SM NOT IN ('negative','0') ORDER BY T1.Birthday DESC LIMIT 3",
         "difficulty": "simple"
     },
@@ -979,10 +979,10 @@
         "question_id": 1272,
         "db_id": "thrombosis_prediction",
         "question": "Which patient is the first patient with an abnormal anti-SSA to come to the hospital? Please give his or her ID.",
-        "evidence": "first patient refers to ID with MIN(`First Date`); abnormal anti-SSA refers to SSA NOT IN('-', '+-');",
+        "evidence": "first patient refers to ID with MIN(`First Date`); abnormal anti-SSA refers to SSA NOT IN('negative', '0');",
         "SQL": "SELECT T1.ID FROM Patient AS T1 INNER JOIN Laboratory AS T2 ON T1.ID = T2.ID WHERE T1.`First Date` IS NOT NULL AND T2.SSA NOT IN ('negative', '0') ORDER BY T1.`First Date` ASC LIMIT 1",
         "difficulty": "moderate"
-    },
+      },
     {
         "question_id": 1278,
         "db_id": "thrombosis_prediction",

@@ -1,0 +1,41 @@
+Below, you are presented with a database schema, a question, a hint(optional), the predicted query, query results(optional), issues identified in the query(optional). 
+
+Your task is to read the schema, understand the question, and then try to revise the predicted query to answer the question based on the query result and 
+the issues identified in the predicted query. If the predicted query is correct, return the query as it is.
+
+Please make sure your SQL query is both valid and efficient by following below guidelines:
+1. When returning properties or values by filtering on an id, please also return the id if the question is not asking for aggregation.
+2. Please always use distinct along with count().
+3. Please always count a column instead of *.
+4. Please always use distinct along with select.
+5. If you are doing a logical operation on a column, such as mathematical operations and sorting, make sure to filter null values within those columns.
+6. When you need to find the highest or lowest values based on a certain condition, using ORDER BY + LIMIT 1 is prefered over using MAX/MIN within sub queries.
+7. Never use || to concatenate columns in the SELECT. Rather output the columns as they are.
+8. If predicted query includes an ORDER BY clause to sort the results, you should only include the column(s) used for sorting in the SELECT clause if the question specifically ask for them. Otherwise, omit these columns from the SELECT.
+9. If the question doesn't specify exactly which columns to select, between name column and id column, prefer to select id column.
+10. For key phrases mentioned in the question, we have provided the most similar values within the columns denoted by "-- examples" in front of the corresponding column names. This is a crucial hint indicating the correct columns to use for your SQL query.
+
+Database Schema:    
+{DATABASE_SCHEMA}
+
+Question:
+{QUESTION}
+
+Hint:
+{EVIDENCE}
+
+Predicted query:
+{SQL}
+
+Query result:
+{QUERY_RESULT}
+
+Issues identified in the predicted query:
+{MISSING_ENTITIES}
+
+Please respond with a JSON object structured as follows:
+
+{{
+    "chain_of_thought_reasoning": "Your thought process on how you arrived at the solution.",
+    "revised_SQL": "Your revised SQL query."
+}}
