@@ -32,7 +32,7 @@ def calculate_ex(predicted_res, ground_truth_res):
         if gold_shape[0] != predicted_shape[0]:
             error = 'number of rows is less than expected' if gold_shape[0] > predicted_shape[0] else 'number of rows is more than expected'
         elif gold_shape[1] != predicted_shape[1]:
-            error = 'number of columns is less than expected' if gold_shape[0] > predicted_shape[0] else 'number of columns is more than expected'
+            error = 'number of columns is less than expected' if gold_shape[1] > predicted_shape[1] else 'number of columns is more than expected'
         else:
             error = 'values are different although number of rows and number of columns are correct'
         res = [0, error, json.dumps(ground_truth_res), json.dumps(predicted_res)]

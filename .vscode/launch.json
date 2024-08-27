@@ -10,40 +10,43 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
+            // evaluation args
+            "args": [
+                "--db_root_path", "./data/dev/dev_databases/",
+                "--data_mode", "dev",
+                "--diff_json_path", "./data/dev/dev.json",
+                //"--predicted_sql_path", "./results/dev/keyword_extraction+entity_retrieval+context_retrieval+candidate_generation+revision+evaluation/wrong_sqls/2024-08-26-16-21-38",
+                "--predicted_sql_path", "./results/dev/keyword_extraction+entity_retrieval+context_retrieval+candidate_generation+revision+evaluation/sub_sampled_bird_dev_set/2024-08-26-20-34-07",
+                //"--predicted_sql_path", "./results/dev/keyword_extraction+entity_retrieval+context_retrieval+candidate_generation+revision+evaluation/dev_test/2024-08-26-14-14-56",
+                "--ground_truth_path", "./data/",
+                "--num_cpus", "4",
+                "--meta_time_out", "30.0",
+                "--mode_gt", "gt",
+                "--mode_predict", "gpt",
+                "--engine", "gpt-4o",
+                "--sql_dialect", "SQLite",
+                //"--iter_num", "20"
+            ]
+            //main.py args
             // "args": [
-            //     "--db_root_path", "./data/dev/dev_databases/",
+            //     //"--data_path", "./data/dev/wrong_sqls.json",
+            //     "--data_path", "./data/dev/sub_sampled_bird_dev_set.json",
             //     "--data_mode", "dev",
-            //     "--diff_json_path", "./data/dev/dev.json",
-            //     "--predicted_sql_path", "./results/dev/keyword_extraction+entity_retrieval+context_retrieval+candidate_generation+revision+evaluation/wrong_sqls/2024-08-23-16-16-29",
-            //     //"--predicted_sql_path", "./results/dev/keyword_extraction+entity_retrieval+context_retrieval+candidate_generation+revision+evaluation/sub_sampled_bird_dev_set/2024-08-22-17-16-26",
-            //     //"--predicted_sql_path", "./results/dev/keyword_extraction+entity_retrieval+context_retrieval+candidate_generation+revision+evaluation/dev_test/2024-08-19-13-55-20",
-            //     "--ground_truth_path", "./data/",
-            //     "--num_cpus", "4",
-            //     "--meta_time_out", "30.0",
-            //     "--mode_gt", "gt",
-            //     "--mode_predict", "gpt",
-            //     "--engine", "gpt-4o",
-            //     "--sql_dialect", "SQLite",
-            //     //"--iter_num", "20"
-            // ]
-            // "args": [
-            //     "--data_path", "./data/dev/wrong_sqls.json",
-            //     //"--data_path", "./data/dev/sub_sampled_bird_dev_set.json",
-            //     "--data_mode", "dev",
-            //     "--num_workers", "2",
+            //     "--num_workers", "1",
             //     "--log_level", "warning",
             //     "--pipeline_nodes", "keyword_extraction+entity_retrieval+context_retrieval+candidate_generation+revision+evaluation",
             //     "--pipeline_setup", "./cfg/cfg.json",
             //     "--templates", "mytemplates"
             // ]
-            "args": [
-                "--db_root_directory", "./data/test",
-                "--db_id", "all",
-                "--verbose", "true",
-                "--signature_size", "100",
-                "--n_gram", "3",
-                "--threshold", "0.01"
-            ]
+            //preprocess.py args
+            // "args": [
+            //     "--db_root_directory", "./data/test",
+            //     "--db_id", "all",
+            //     "--verbose", "true",
+            //     "--signature_size", "100",
+            //     "--n_gram", "3",
+            //     "--threshold", "0.01"
+            // ]
         }
     ]
 }

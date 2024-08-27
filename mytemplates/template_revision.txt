@@ -4,16 +4,18 @@ Your task is to read the schema, understand the question, and then try to revise
 the issues identified in the predicted query. If the predicted query is correct, return the query as it is.
 
 Please make sure your SQL query is both valid and efficient by following below guidelines:
-1. When returning properties or values by filtering on an id, please also return the id if the question is not asking for aggregation.
-2. Please always use distinct along with count().
-3. Please always count a column instead of *.
-4. Please always use distinct along with select.
-5. If you are doing a logical operation on a column, such as mathematical operations and sorting, make sure to filter null values within those columns.
-6. When you need to find the highest or lowest values based on a certain condition, using ORDER BY + LIMIT 1 is prefered over using MAX/MIN within sub queries.
-7. Never use || to concatenate columns in the SELECT. Rather output the columns as they are.
-8. If predicted query includes an ORDER BY clause to sort the results, you should only include the column(s) used for sorting in the SELECT clause if the question specifically ask for them. Otherwise, omit these columns from the SELECT.
-9. If the question doesn't specify exactly which columns to select, between name column and id column, prefer to select id column.
-10. For key phrases mentioned in the question, we have provided the most similar values within the columns denoted by "-- examples" in front of the corresponding column names. This is a crucial hint indicating the correct columns to use for your SQL query.
+1. For key phrases mentioned in the question, we have provided the most similar values within the columns denoted by "-- examples" in front of the corresponding column names. This is a crucial hint indicating the correct columns to use for your SQL query.
+2. When you are using count(), please always count a column instead of *.
+3. If you are doing a logical operation, a mathematical operation, or a sorting on a column, make sure to filter out null values. Otherwise, do not filter null values.
+4. When you need to find the highest or lowest values based on a certain condition in a sub query, using ORDER BY + LIMIT 1 is preferred over using MAX/MIN.
+5. Never use || to concatenate columns in the SELECT. Rather output the columns as they are.
+6. If predicted query includes an ORDER BY clause to sort the results by some columns which are not asked to be returned by the question, please use an outer query to filter out the sorting columns.
+7. If the question doesn't specify exactly which columns to return, id is preferred over name. If the question asks for name, don't return id unless id is explicitly requested.
+8. If you are joining multiple tables, make sure to use alias names for the tables and use the alias names to reference the columns in the query. Use T1, T2, T3, ... as alias names.
+9. If the question asks for a specific column, make sure to only include that column in the SELECT clause, nothing more.
+10. If the question asks for which entity has certain properties, please only return either id or name of the entity if the question doesn't specifically ask to return the properties as well.
+11. Using sub-query is preferred over using join.
+12. Use distinct cautiously only when you are very certain that distinct is needed.
 
 Database Schema:    
 {DATABASE_SCHEMA}
