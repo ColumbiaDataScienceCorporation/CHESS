@@ -1,0 +1,19 @@
+Given the following question and hint, please complete the following tasks:
+1. Please return all of the fields asked to return by the question.
+2. Please return all of the keywords, key phrases and named entities identified in the question and evidence.
+If keywords in question are re-defined in evidence, replace them with the keywords in evidence. 
+3. Please also return the question with keywords replaced as defined in evidence.
+    
+Question: 
+What is the highest total bilirubin level recorded? List out the patient details with ID, sex and birthday with that index.
+
+Hint:
+the highest total bilirubin refers to MAX(T-BIL)
+
+Please respond with a JSON object structured as follows:
+
+{{
+    "fields": [field1, field2, ...]
+    "keywords": [keyword1, keyword2, ...],
+    "question": "Revised question with keywords replaced as defined in evidence."
+}}

@@ -16,10 +16,10 @@
                 "--data_mode", "dev",
                 "--diff_json_path", "./data/dev/dev.json",
                 //"--predicted_sql_path", "./results/dev/keyword_extraction+entity_retrieval+context_retrieval+candidate_generation+revision+evaluation/wrong_sqls/2024-08-26-16-21-38",
-                "--predicted_sql_path", "./results/dev/keyword_extraction+entity_retrieval+context_retrieval+candidate_generation+revision+evaluation/sub_sampled_bird_dev_set/2024-08-26-20-34-07",
+                "--predicted_sql_path", "./results/dev/keyword_extraction+entity_retrieval+context_retrieval+candidate_generation+revision+evaluation/sub_sampled_bird_dev_set/2024-08-27-21-25-45",
                 //"--predicted_sql_path", "./results/dev/keyword_extraction+entity_retrieval+context_retrieval+candidate_generation+revision+evaluation/dev_test/2024-08-26-14-14-56",
                 "--ground_truth_path", "./data/",
-                "--num_cpus", "4",
+                "--num_cpus", "1",
                 "--meta_time_out", "30.0",
                 "--mode_gt", "gt",
                 "--mode_predict", "gpt",
@@ -29,7 +29,7 @@
             ]
             //main.py args
             // "args": [
-            //     //"--data_path", "./data/dev/wrong_sqls.json",
+            //     //"--data_path", "./data/dev/dev_test.json",
             //     "--data_path", "./data/dev/sub_sampled_bird_dev_set.json",
             //     "--data_mode", "dev",
             //     "--num_workers", "1",
