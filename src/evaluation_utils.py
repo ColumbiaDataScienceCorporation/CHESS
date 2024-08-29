@@ -92,6 +92,7 @@ def postprocess_results(db_root_path, results_folder):
     dbs = []
     sql_seq_no = []
     gold_sqls = []
+    unrevised_sqls = []
     files=glob.glob(str(Path(results_folder) / '*_*.json'))
     for f in files:
         if not os.path.basename(f)[0].isnumeric():
@@ -110,7 +111,8 @@ def postprocess_results(db_root_path, results_folder):
                         predicted = jj['revision']['PREDICTED_SQL']
                     if "GOLD_SQL" in jj['revision']:    
                         gold = jj['revision']['GOLD_SQL']
-
+                    unrevised_sqls.append(predicted)
+                
                 if 'revision' in jj:
                     if "PREDICTED_SQL" in jj['revision']:
                         predicted = jj['revision']['PREDICTED_SQL']
@@ -119,7 +121,7 @@ def postprocess_results(db_root_path, results_folder):
 
         sqls.append(predicted)
         gold_sqls.append(gold)
-    return sqls, gold_sqls, dbs, sql_seq_no
+    return sqls, gold_sqls, dbs, sql_seq_no, unrevised_sqls
 
 
 if __name__ == '__main__':

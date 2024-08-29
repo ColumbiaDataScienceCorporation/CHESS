@@ -137,7 +137,7 @@ def compute_acc_by_diff(exec_results, diff_json_path, sql_seq_no):
     )
 
 
-def dump_wrong_sqls(exec_result, args):
+def dump_wrong_sqls(whichOne, exec_result, args):
     wrong_sqls = []
     questions = load_json(args.diff_json_path)
     for res in exec_result:
@@ -154,8 +154,42 @@ def dump_wrong_sqls(exec_result, args):
             result['gold_result'] = res['gold_res']
             result['predicted_result'] = res['predicted_res']
             wrong_sqls.append(result)        
-    with open(str(Path(args.predicted_sql_path) / 'wrong_sqls.json'), 'w') as f:
+    with open(str(Path(args.predicted_sql_path) / f'wrong_sqls_{whichOne}.json'), 'w') as f:
         json.dump(wrong_sqls, f, indent=2)
+
+
+def evaluate_ex(whichOne, pred_queries, gt_queries, db_paths, sql_seq_no, args): 
+    global exec_result
+
+    exec_result = []
+    
+    query_pairs = list(zip(pred_queries, gt_queries))
+
+    run_sqls_parallel(
+        query_pairs,
+        db_places=db_paths,
+        num_cpus=args.num_cpus,
+        meta_time_out=args.meta_time_out,
+        sql_dialect=args.sql_dialect,
+        sql_seq_no=sql_seq_no
+    )
+    exec_result = sort_results(exec_result)
+    pd.DataFrame(exec_result).to_csv(Path(args.predicted_sql_path) / f'evaluation_results_{whichOne}.csv', index=False)
+    
+    dump_wrong_sqls(whichOne, exec_result, args)
+    
+    print("start calculate using " + whichOne)
+    simple_acc, moderate_acc, challenging_acc, acc, count_lists = compute_acc_by_diff(
+        exec_result, args.diff_json_path, sql_seq_no
+    )
+    score_lists = [simple_acc, moderate_acc, challenging_acc, acc]
+    print(f"EX for {args.engine} on {args.sql_dialect} set using {whichOne}")
+    print_data(score_lists, count_lists, metric="EX")
+    print(
+        "==========================================================================================="
+    )
+    print(f"Finished EX evaluation for {args.engine} on {args.sql_dialect} set using {whichOne}")
+    print("\n\n")
 
 
 if __name__ == "__main__":
@@ -177,33 +211,8 @@ if __name__ == "__main__":
     
     args = args_parser.parse_args()
     
-    pred_queries, gt_queries, db_paths, sql_seq_no = postprocess_results(args.db_root_path, args.predicted_sql_path)
+    pred_queries, gt_queries, db_paths, sql_seq_no, unrevised_sqls = postprocess_results(args.db_root_path, args.predicted_sql_path)
 
-    query_pairs = list(zip(pred_queries, gt_queries))
+    evaluate_ex("unrevised", unrevised_sqls, gt_queries, db_paths, sql_seq_no, args)
 
-    run_sqls_parallel(
-        query_pairs,
-        db_places=db_paths,
-        num_cpus=args.num_cpus,
-        meta_time_out=args.meta_time_out,
-        sql_dialect=args.sql_dialect,
-        sql_seq_no=sql_seq_no
-    )
-    exec_result = sort_results(exec_result)
-    pd.DataFrame(exec_result).to_csv(Path(args.predicted_sql_path) / 'evaluation_results.csv', index=False)
-    
-    dump_wrong_sqls(exec_result, args)
-    
-    print("start calculate")
-    simple_acc, moderate_acc, challenging_acc, acc, count_lists = compute_acc_by_diff(
-        exec_result, args.diff_json_path, sql_seq_no
-    )
-    score_lists = [simple_acc, moderate_acc, challenging_acc, acc]
-    print(f"EX for {args.engine} on {args.sql_dialect} set")
-    print("start calculate")
-    print_data(score_lists, count_lists, metric="EX")
-    print(
-        "==========================================================================================="
-    )
-    print(f"Finished EX evaluation for {args.engine} on {args.sql_dialect} set")
-    print("\n\n")
+    evaluate_ex("revised", pred_queries, gt_queries, db_paths, sql_seq_no, args)

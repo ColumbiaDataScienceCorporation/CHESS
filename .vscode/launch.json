@@ -19,7 +19,7 @@
                 "--predicted_sql_path", "./results/dev/keyword_extraction+entity_retrieval+context_retrieval+candidate_generation+revision+evaluation/sub_sampled_bird_dev_set/2024-08-27-21-25-45",
                 //"--predicted_sql_path", "./results/dev/keyword_extraction+entity_retrieval+context_retrieval+candidate_generation+revision+evaluation/dev_test/2024-08-26-14-14-56",
                 "--ground_truth_path", "./data/",
-                "--num_cpus", "1",
+                "--num_cpus", "4",
                 "--meta_time_out", "30.0",
                 "--mode_gt", "gt",
                 "--mode_predict", "gpt",

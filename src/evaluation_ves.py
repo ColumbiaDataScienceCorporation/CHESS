@@ -242,7 +242,7 @@ if __name__ == "__main__":
     args = args_parser.parse_args()
     exec_result = []
 
-    pred_queries, gt_queries, db_paths, sql_seq_no = postprocess_results(args.db_root_path, args.predicted_sql_path)
+    pred_queries, gt_queries, db_paths, sql_seq_no, _ = postprocess_results(args.db_root_path, args.predicted_sql_path)
 
     query_pairs = list(zip(pred_queries, gt_queries))
     run_sqls_parallel(
