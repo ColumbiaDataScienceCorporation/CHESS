@@ -69,7 +69,8 @@ def query_lsh(lsh: MinHashLSH, minhashes: Dict[str, Tuple[MinHash, str, str, str
 
     similar_values_trimmed: Dict[str, Dict[str, List[str]]] = {}
     for result, similarity in similarities:
-        table_name, column_name, value = minhashes[result][1:]
+        table_name, column_name = result.split('/')
+        value = minhashes[result][1]
         if table_name not in similar_values_trimmed:
             similar_values_trimmed[table_name] = {}
         if column_name not in similar_values_trimmed[table_name]:

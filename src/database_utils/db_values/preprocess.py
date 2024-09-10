@@ -128,8 +128,8 @@ def make_lsh(unique_values: Dict[str, Dict[str, List[str]]], signature_size: int
                 
                 for id, value in enumerate(column_values):
                     minhash = _create_minhash(signature_size, value, n_gram)
-                    minhash_key = f"{table_name}_{column_name}_{id}"
-                    minhashes[minhash_key] = (minhash, table_name, column_name, value)
+                    minhash_key = f"{table_name}/{column_name}"
+                    minhashes[minhash_key] = (minhash, value)
                     lsh.insert(minhash_key, minhash)
                     
                     if verbose:
