@@ -1,4 +1,4 @@
-Below, you are presented with a database schema, a question and a hint dlimited
+Below, you are presented with a database schema, a question and a hint.
 Your task is to read the schema, understand the question and the hint, and generate a valid SQL query to answer the question.
 Before generating the final SQL query, please think step by step on how to write the query.
 

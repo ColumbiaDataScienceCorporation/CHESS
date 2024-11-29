@@ -24,16 +24,16 @@ def entity_retrieval(task: Any, tentative_schema: Dict[str, Any], execution_hist
     Returns:
         Dict[str, Any]: A dictionary containing similar columns and values.
     """
-    logging.info("Starting entity retrieval")
+    logging.info("---Starting entity retrieval---")
     keywords = get_last_node_result(execution_history, "keyword_extraction")["keywords"]
     
     similar_columns = get_similar_columns(keywords=keywords, question=task.question, hint=task.evidence)
     result = {"similar_columns": similar_columns}
-    
+    logging.info(f'similar columns: {similar_columns}')
     similar_values = get_similar_entities(keywords=keywords)
     result["similar_values"] = similar_values
-
-    logging.info("Entity retrieval completed successfully")
+    logging.info(f'similar values: {similar_values}')
+    logging.info("----Entity retrieval completed successfully---")
     return result
 
 ### Column name similarity ###

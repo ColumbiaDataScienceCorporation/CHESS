@@ -4,6 +4,7 @@ from typing import Dict, List, Any
 from runner.database_manager import DatabaseManager
 from pipeline.utils import node_decorator, get_last_node_result
 from pipeline.pipeline_manager import PipelineManager
+import json
 
 @node_decorator(check_schema_status=False)
 def context_retrieval(task: Any, tentative_schema: Dict[str, Any], execution_history: List[Dict[str, Any]]) -> Dict[str, Any]:
@@ -18,7 +19,7 @@ def context_retrieval(task: Any, tentative_schema: Dict[str, Any], execution_his
     Returns:
         Dict[str, Any]: A dictionary containing the schema with descriptions.
     """
-    logging.info("Starting context retrieval")
+    logging.info("--Starting context retrieval--")
     
     keywords = get_last_node_result(execution_history, "keyword_extraction")["keywords"]
     top_k = PipelineManager().context_retrieval["top_k"]
@@ -29,11 +30,13 @@ def context_retrieval(task: Any, tentative_schema: Dict[str, Any], execution_his
         keywords=keywords,
         top_k=top_k
     )
+    logging.info(f'retrieved columns: {retrieved_columns}')
     
     schema_with_descriptions = _format_retrieved_descriptions(retrieved_columns)
     result = {"schema_with_descriptions": schema_with_descriptions}
+    logging.info(f'schema_with_descriptions: {json.dumps(schema_with_descriptions, indent=2)}')
     
-    logging.info("Context retrieval completed successfully")
+    logging.info("----Context retrieval completed successfully---")
     return result
 
 ### Context similarity ###
